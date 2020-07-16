@@ -5,16 +5,17 @@ namespace Videos
 {
     class video
     {
+        private int idUsuari;
+        private string url, titol;
+        private List<string> tags;
 
-        public video(string url, string titol, List<string> tags)
+        public video(int idUsuari, string url, string titol, List<string> tags)
         {
+            this.idUsuari = idUsuari;
             this.url = url;
             this.titol = titol;
             this.tags = tags;
         }
-
-        public string url { get; set; }
-        public string titol { get; set; }
-        public List<string> tags { get; set; }
+        
     }
 }
