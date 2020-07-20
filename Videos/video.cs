@@ -21,7 +21,8 @@ namespace Videos
 
         public override string ToString()
         {
-            return string.Format("Titol: {0}, URL {1}.", titol, url);
+            var result = string.Join(",", tags);
+            return string.Format("Titol: {0}, URL {1}. Tags: {2}", titol, url,result);
         }
     }
 }

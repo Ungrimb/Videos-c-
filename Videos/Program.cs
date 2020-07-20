@@ -77,9 +77,12 @@ namespace Videos
                             url = Console.ReadLine();
                             Console.WriteLine("Titol del video :");
                             titol = Console.ReadLine();
-                            Console.WriteLine("Tag :");
+                            Console.WriteLine("Tags (separar per , :");
                             tag = Console.ReadLine();
-                            tags.Add(tag);
+                            String pattern = @",";
+                            String[] elements = System.Text.RegularExpressions.Regex.Split(tag, pattern);
+                            foreach (var element in elements)
+                                tags.Add(element);
                             video video = new video(login.idUsuari, url, titol, tags);
                             videos.Add(video);
                         }
