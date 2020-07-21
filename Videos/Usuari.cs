@@ -15,15 +15,21 @@ namespace Videos
         public string data { get; set; }
 
         private int status = 1;
-        public Usuari(int idUsuari,string nom, string cognom, string password, string data)
+
+        public Usuari(int idUsuari, string nom, string cognom, string password, string data)
         {
             this.idUsuari = idUsuari;
-            this.nom = nom;
-            this.cognom = cognom;
-            this.password = password;
+            if (string.IsNullOrEmpty(nom))
+                throw new ArgumentException();
+            else this.nom = nom;
+            if (string.IsNullOrEmpty(cognom))
+                throw new ArgumentException();
+            else this.cognom = cognom;
+            if (string.IsNullOrEmpty(password))
+                throw new ArgumentException();
+            else this.password = password;
             this.data = data;
         }
-
         public video CreateVideo(string url, string titol, List<string> tags, int status)
         {
             video newVideo = new video(idUsuari, url, titol, tags,status);

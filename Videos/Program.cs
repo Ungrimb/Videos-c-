@@ -16,7 +16,7 @@ namespace Videos
             List<string> tags = new List<string>();
             List<Usuari> usuaris = new List<Usuari>();
             List<video> videos = new List<video>();
-            Usuari login=new Usuari(0,"","","","");
+            Usuari login=new Usuari(0,"a","a","a","a");
 
             int option = clsMenu.options(intento);
             do
@@ -32,10 +32,17 @@ namespace Videos
                         password = Console.ReadLine();
                         DateTime thisDay = DateTime.Today;
                         data = thisDay.ToString();
-                        Usuari user = new Usuari(idUser, nom, cognom, password, data);
-                        usuaris.Add(user);
-                        idUser++;
-                        if (intento==1) intento++;
+                        try
+                        {
+                            Usuari user = new Usuari(idUser, nom, cognom, password, data);
+                            usuaris.Add(user);
+                            idUser++;
+                            if (intento == 1) intento++;
+                        } catch (ArgumentException)
+                        {
+                            Console.WriteLine("No puedes poner campos vacíos");
+                            Console.ReadKey();
+                        }
                         break;
                     case 2:
                         if (intento == 1) Console.WriteLine("Opción no habilitada");
@@ -89,8 +96,16 @@ namespace Videos
                             foreach (var element in elements)
                                 tags.Add(element);
                             tagsList.Add(new List<string>(tags));
-                            videos.Add(login.CreateVideo(url, titol, tagsList[idVideo], 1));
-                            idVideo++;
+                            try
+                            {
+                                videos.Add(login.CreateVideo(url, titol, tagsList[idVideo], 1));
+                                idVideo++;
+                            } catch (ArgumentException)
+                            {
+                                Console.WriteLine("No puedes poner campos vacíos");
+                                Console.ReadKey();
+                            }
+                            
                         }
                             break;
                     case 4:

@@ -13,8 +13,12 @@ namespace Videos
         public video(int idUsuari, string url, string titol, List<string> tags,int status)
         {
             this.idUsuari = idUsuari;
-            this.url = url;
-            this.titol = titol;
+            if (string.IsNullOrEmpty(url))
+                throw new ArgumentException();
+            else this.url = url;
+            if (string.IsNullOrEmpty(titol))
+                throw new ArgumentException();
+            else this.titol = titol;
             this.tagsVideo = tags;
             this.status = status;
         }
