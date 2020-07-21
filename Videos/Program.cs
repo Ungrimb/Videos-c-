@@ -12,10 +12,7 @@ namespace Videos
         {
             int intento = 1,idUser=0,idVideo=0;
             string nom, cognom, password, data,url,titol,tag;
-            List<List<String>> tagsList = new List<List<string>>();
-            List<string> tags = new List<string>();
             List<Usuari> usuaris = new List<Usuari>();
-            List<video> videos = new List<video>();
             Usuari login=new Usuari(0,"a","a","a","a");
 
             int option = clsMenu.options(intento);
@@ -75,7 +72,7 @@ namespace Videos
                                     error++;
                                 }
                             } while (error < 3 && isCorrect == false);
-                            if (error == 3) Console.WriteLine("Mases intents");
+                            if (error == 3) Console.WriteLine("Masses intents");
                             else if (isCorrect) intento = 3;
                         }
                         break;
@@ -87,18 +84,16 @@ namespace Videos
                             url = Console.ReadLine();
                             Console.WriteLine("Titol del video :");
                             titol = Console.ReadLine();
+                            List<string> tags = new List<string>();
                             Console.WriteLine("Tags (separar per ,) :");
                             tag = Console.ReadLine();
                             String pattern = @",";
                             String[] elements = System.Text.RegularExpressions.Regex.Split(tag, pattern);
-                            //tagsList.Add(new List<string>() { "" });
-                            tags.Clear();
                             foreach (var element in elements)
                                 tags.Add(element);
-                            tagsList.Add(new List<string>(tags));
                             try
                             {
-                                videos.Add(login.CreateVideo(url, titol, tagsList[idVideo], 1));
+                                login.CreateVideo(url, titol, tags, 1);
                                 idVideo++;
                             } catch (ArgumentException)
                             {
@@ -124,10 +119,7 @@ namespace Videos
                         if (intento < 2) Console.WriteLine("Opción no habilitada");
                         else
                         {
-                            foreach (var v in videos)
-                            {
-                                if (v.IdUsuari == login.idUsuari) Console.WriteLine(v);
-                            }
+                            login.PrintVideos();
                             Console.WriteLine("Pulsa una tecla per continuar");
                             Console.ReadKey();
                         }
@@ -137,37 +129,25 @@ namespace Videos
                         if (intento < 2) Console.WriteLine("Opción no habilitada");
                         else
                         {
-                            video vResult = videos[idVideo - 1];
-                            bool isFind = false;
                             int option2;
                             
                             Console.Clear();
-                            foreach (var v in videos)
-                            {
-                                if (v.IdUsuari == login.idUsuari) Console.WriteLine(v);
-                            }
+                            login.PrintVideos();
                             Console.WriteLine("Inserte nombre video que desea modificar");
                             string nombre = Console.ReadLine();
-                            foreach (var v in videos)
+                            video v = login.IsVideo(nombre);
+                            if (v == null)
                             {
-                                if (v.Titol == nombre)
-                                {
-                                    vResult = v;
-                                    isFind = true;
-                                } 
+                                Console.WriteLine("Video no encontrado");
+                                break;
                             }
-                            if (!isFind)
-                                {
-                                    Console.WriteLine("Video no encontrado");
-                                    break;
-                                }
                             
                             do
                             {
                                 Console.Clear();
-                                if (vResult.Status==1) Console.WriteLine("Video Parado");
-                                if (vResult.Status == 2) Console.WriteLine("Video Ejecutándose");
-                                if (vResult.Status == 3) Console.WriteLine("Video en Pausa");
+                                if (v.Status == 1) Console.WriteLine("Video Parado");
+                                if (v.Status == 2) Console.WriteLine("Video Ejecutándose");
+                                if (v.Status == 3) Console.WriteLine("Video en Pausa");
                                 
                                 Console.WriteLine("Menu de opciones: \n\nPulse la opción deseada:\n\n");
                                 Console.WriteLine("1. Añadir Tags\n2. Play\n3. Stop\n4. Pause\n0. Volver");
@@ -187,36 +167,36 @@ namespace Videos
                                         String pattern = @",";
                                         String[] elements = System.Text.RegularExpressions.Regex.Split(tag, pattern);
                                         foreach (var element in elements)
-                                            vResult.Tags.Add(element);
+                                            v.Tags.Add(element);
                                         break;
                                     case 2:
-                                        if (vResult.Status == 2)
+                                        if (v.Status == 2)
                                         {
                                             Console.WriteLine("Ya estaba ejecutándose");
                                             Console.ReadKey();
                                         }
-                                        else vResult.Status = 2;
+                                        else v.Status = 2;
                                         break;
                                     case 3:
-                                        if (vResult.Status == 1)
+                                        if (v.Status == 1)
                                         {
                                             Console.WriteLine("Ya estaba parado");
                                             Console.ReadKey();
                                         }
-                                        else vResult.Status = 1;
+                                        else v.Status = 1;
                                         break;
                                     case 4:
-                                        if (vResult.Status == 1)
+                                        if (v.Status == 1)
                                         {
                                             Console.WriteLine("Ya estaba parado");
                                             Console.ReadKey();
                                         }
-                                        if (vResult.Status == 3)
+                                        if (v.Status == 3)
                                         {
                                             Console.WriteLine("Ya estaba en pausa");
                                             Console.ReadKey();
                                         }
-                                        vResult.Status = 3;
+                                        v.Status = 3;
                                         break;
                                 }
                             } while (option2 > 0);

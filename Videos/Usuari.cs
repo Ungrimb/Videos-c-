@@ -16,6 +16,8 @@ namespace Videos
 
         private int status = 1;
 
+        private List<video> videos = new List<video>();
+
         public Usuari(int idUsuari, string nom, string cognom, string password, string data)
         {
             this.idUsuari = idUsuari;
@@ -30,18 +32,34 @@ namespace Videos
             else this.password = password;
             this.data = data;
         }
-        public video CreateVideo(string url, string titol, List<string> tags, int status)
+        public void CreateVideo(string url, string titol, List<string> tags, int status)
         {
-            video newVideo = new video(idUsuari, url, titol, tags,status);
-            return newVideo;
+            videos.Add(new video(idUsuari, url, titol, tags,status));
         }
-
+        public void PrintVideos()
+        {
+            foreach (var v in videos)
+            {
+                Console.WriteLine(v);
+            }
+        }
         public bool IsUser(string nom)
         {
             bool resultado=false;
             return resultado;
         }
-
+        public video IsVideo(string name)
+        {
+            foreach (var v in videos)
+            {
+                if (v.Titol==name) return v;
+            }
+            return null;
+        }
+        public int Status(video video)
+        { 
+            return video.Status;
+        }
         public override string ToString()
         {
             return string.Format("Usuario: {0} {1} Creado el {2}.", nom, cognom, data);
