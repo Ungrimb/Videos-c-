@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using System.Threading;
 
 namespace Videos
 {
@@ -12,6 +13,8 @@ namespace Videos
         public string cognom { get; set; }
         public string password { get; set; }
         public string data { get; set; }
+
+        private int status = 1;
         public Usuari(int idUsuari,string nom, string cognom, string password, string data)
         {
             this.idUsuari = idUsuari;
@@ -21,9 +24,9 @@ namespace Videos
             this.data = data;
         }
 
-        public video CreateVideo(string url, string titol, List<string> tags)
+        public video CreateVideo(string url, string titol, List<string> tags, int status)
         {
-            video newVideo = new video(idUsuari, url, titol, tags);
+            video newVideo = new video(idUsuari, url, titol, tags,status);
             return newVideo;
         }
 

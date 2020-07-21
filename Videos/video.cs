@@ -7,22 +7,28 @@ namespace Videos
     {
         private int idUsuari;
         private string url, titol;
-        private List<string> tags;
+        private List<string> tagsVideo;
+        private int status;
 
-        public video(int idUsuari, string url, string titol, List<string> tags)
+        public video(int idUsuari, string url, string titol, List<string> tags,int status)
         {
             this.idUsuari = idUsuari;
             this.url = url;
             this.titol = titol;
-            this.tags = tags;
+            this.tagsVideo = tags;
+            this.status = status;
         }
 
         public int IdUsuari { get => idUsuari; set => idUsuari = value; }
+        public string Url { get => url; set => url = value; }
+        public string Titol { get => titol; set => titol = value; }
+        public List<string> Tags { get => tagsVideo; set => tagsVideo = value; }
+        public int Status { get => status; set => status = value; }
 
         public override string ToString()
         {
-            var result = string.Join(",", tags);
-            return string.Format("Titol: {0}, URL {1}. Tags: {2}", titol, url,result);
+            var result = string.Join(",", tagsVideo);
+            return string.Format("Titol: {0}, URL {1}. Tags: {2}", titol, url, result);
         }
     }
 }
